@@ -23,7 +23,7 @@ interface ImagesQueryResponse {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<void> {
   if (req.method === 'POST') {
     const { url, title, description } = req.body;
@@ -36,7 +36,7 @@ export default async function handler(
             description,
             url,
           },
-        })
+        }),
       )
       .then(() => {
         return res.status(201).json({ success: true });
@@ -44,7 +44,7 @@ export default async function handler(
       .catch(err =>
         res
           .status(501)
-          .json({ error: `Sorry something Happened! ${err.message}` })
+          .json({ error: `Sorry something Happened! ${err.message}` }),
       );
   }
 
@@ -61,10 +61,10 @@ export default async function handler(
         query.Map(
           query.Paginate(
             query.Documents(query.Collection('images')),
-            queryOptions
+            queryOptions,
           ),
-          query.Lambda('X', query.Get(query.Var('X')))
-        )
+          query.Lambda('X', query.Get(query.Var('X'))),
+        ),
       )
       .then(response => {
         const formattedData = response.data.map(item => ({
